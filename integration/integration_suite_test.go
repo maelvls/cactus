@@ -20,6 +20,7 @@ func TestIntegration(t *testing.T) {
 	})
 
 	AfterSuite(func() {
+		gexec.Terminate()
 		gexec.CleanupBuildArtifacts()
 	})
 
