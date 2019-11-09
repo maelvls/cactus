@@ -93,7 +93,7 @@ var _ = Describe("Integration", func() {
 		})
 	})
 
-	XContext("any other attempted action", func() {
+	Context("any other attempted action", func() {
 		It("complains", func() {
 			_, err := io.WriteString(inBuf, "I 2 2\nP 1 1 A\n")
 			Expect(err).NotTo(HaveOccurred())

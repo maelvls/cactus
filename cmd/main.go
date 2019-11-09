@@ -33,6 +33,8 @@ func main() {
 				fmt.Println(bitmap.Pretty())
 			case "C":
 				bitmap.Clear()
+			default:
+				fmt.Println("invalid action")
 			}
 
 		case err := <-errChan:
