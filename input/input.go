@@ -30,7 +30,7 @@ func (i *Input) GetImageSize() (int, int, error) {
 	i.scanner.Scan()
 	text := strings.Split(i.scanner.Text(), " ")
 
-	if text[0] != "I" {
+	if strings.ToUpper(text[0]) != "I" {
 		return 0, 0, fmt.Errorf("unrecognised command '%s', use 'I' for Image initialisation", text[0])
 	}
 
@@ -52,7 +52,7 @@ func (i *Input) GetEditActions(actionChan chan Command, errChan chan error) {
 		i.scanner.Scan()
 		text := strings.Split(i.scanner.Text(), " ")
 
-		command := Command{Action: text[0]}
+		command := Command{Action: strings.ToUpper(text[0])}
 
 		if len(text) > 1 {
 			coords, err := translateInts(text[1 : len(text)-1])
@@ -61,7 +61,7 @@ func (i *Input) GetEditActions(actionChan chan Command, errChan chan error) {
 				continue
 			}
 			command.Coords = coords
-			command.Char = text[len(text)-1]
+			command.Char = strings.ToUpper(text[len(text)-1])
 		}
 
 		actionChan <- command

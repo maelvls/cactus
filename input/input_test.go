@@ -33,6 +33,16 @@ var _ = Describe("Input", func() {
 			Expect(y).To(Equal(7))
 		})
 
+		It("upcases the image command, and doesn't fail", func() {
+			_, err := io.WriteString(buffer, "i 5 7")
+			Expect(err).NotTo(HaveOccurred())
+
+			x, y, err := i.GetImageSize()
+			Expect(err).NotTo(HaveOccurred())
+			Expect(x).To(Equal(5))
+			Expect(y).To(Equal(7))
+		})
+
 		Context("if the argument for the x azis cannot be translated into an integer", func() {
 			It("fails", func() {
 				_, err := io.WriteString(buffer, "I x 7")
@@ -97,6 +107,23 @@ var _ = Describe("Input", func() {
 	Describe("GetEditActions", func() {
 		It("processes input and returns Command objects", func() {
 			_, err := io.WriteString(buffer, "L 1 3 A")
+			Expect(err).NotTo(HaveOccurred())
+
+			commChan := make(chan input.Command)
+			errChan := make(chan error)
+
+			go func() {
+				i.GetEditActions(commChan, errChan)
+			}()
+
+			comm := <-commChan
+			Expect(comm.Action).To(Equal("L"))
+			Expect(comm.Coords).To(Equal([]int{1, 3}))
+			Expect(comm.Char).To(Equal("A"))
+		})
+
+		It("upcases the command action and char", func() {
+			_, err := io.WriteString(buffer, "l 1 3 a")
 			Expect(err).NotTo(HaveOccurred())
 
 			commChan := make(chan input.Command)
