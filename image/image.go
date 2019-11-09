@@ -36,6 +36,15 @@ func (i *Image) SetMultiY(x, y1, y2 int, char string) error {
 	return err
 }
 
+func (i *Image) SetMultiX(x1, x2, y int, char string) error {
+	var err error
+	for x := x1; x <= x2; x++ {
+		err = i.Set(x, y, char)
+	}
+
+	return err
+}
+
 func (i *Image) Pretty() string {
 	out := ""
 	for x := range i.Grid {

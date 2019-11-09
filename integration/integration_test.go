@@ -91,6 +91,28 @@ var _ = Describe("Integration", func() {
 		})
 	})
 
+	Describe("'H': colouring a horizontal line", func() {
+		It("sets the pixels between the specified coordinates", func() {
+			_, err := io.WriteString(inBuf, "I 5 5\nH 3 5 2 Z\nS")
+			Expect(err).NotTo(HaveOccurred())
+
+			session, err := gexec.Start(cliCmd, GinkgoWriter, GinkgoWriter)
+			Expect(err).NotTo(HaveOccurred())
+			Eventually(session.Out).Should(gbytes.Say("O O O O O\nO O Z Z Z\nO O O O O\nO O O O O\nO O O O O\n"))
+		})
+
+		Context("if the action cannot be processed", func() {
+			It("prints an error", func() {
+				_, err := io.WriteString(inBuf, "I 5 5\nH 3 5 7 Z")
+				Expect(err).NotTo(HaveOccurred())
+
+				session, err := gexec.Start(cliCmd, GinkgoWriter, GinkgoWriter)
+				Expect(err).NotTo(HaveOccurred())
+				Eventually(session.Out).Should(gbytes.Say("given coordinate is beyond image grid"))
+			})
+		})
+	})
+
 	Describe("'S': showing the image", func() {
 		Context("whenever the user inputs the 'S' command", func() {
 			It("the image is printed in its current state", func() {

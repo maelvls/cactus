@@ -65,6 +65,27 @@ var _ = Describe("Image", func() {
 		})
 	})
 
+	Describe("SetMultiX", func() {
+		var m image.Image
+
+		BeforeEach(func() {
+			m = image.New(3, 2)
+		})
+
+		It("sets the given x-axis bits to a value", func() {
+			expected := [][]string{{"B", "B", "B"}, {"O", "O", "O"}}
+			Expect(m.SetMultiX(1, 3, 1, "B")).To(Succeed())
+			Expect(m.Grid).To(Equal(expected))
+		})
+
+		Context("if an x coordinate is out of range", func() {
+			It("fails", func() {
+				err := m.SetMultiX(1, 5, 1, "B")
+				Expect(err).To(MatchError("given coordinate is beyond image grid"))
+			})
+		})
+	})
+
 	Describe("Clear", func() {
 		var m image.Image
 
