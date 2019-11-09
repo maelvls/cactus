@@ -4,15 +4,13 @@ import (
 	"bufio"
 	"fmt"
 	"os"
-	"strings"
 
 	"github.com/mo-work/go-technical-test-for-claudia/image"
 	"github.com/mo-work/go-technical-test-for-claudia/input"
 )
 
 func main() {
-	scanner := bufio.NewScanner(os.Stdin)
-	in := input.New(scanner)
+	in := input.New(bufio.NewScanner(os.Stdin))
 	xAxis, yAxis, err := in.GetImageSize()
 	if err != nil {
 		fmt.Printf("invalid image value: %s\n", err)
@@ -20,12 +18,24 @@ func main() {
 	}
 
 	bitmap := image.New(xAxis, yAxis)
-	//TODO move into input
+
+	commandChan := make(chan input.Command)
+	errChan := make(chan error)
+	go in.GetEditActions(commandChan, errChan)
+
 	for {
-		scanner.Scan()
-		text := strings.Split(scanner.Text(), " ")
-		if text[0] == "S" {
-			fmt.Println(bitmap.Pretty())
+		select {
+		case command := <-commandChan:
+			switch command.Action {
+			case "L":
+				bitmap.Set(command.Coords[0], command.Coords[1], command.Char)
+			case "S":
+				fmt.Println(bitmap.Pretty())
+			}
+
+		case err := <-errChan:
+			fmt.Println(err)
+			os.Exit(1)
 		}
 	}
 }

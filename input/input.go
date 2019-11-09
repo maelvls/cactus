@@ -34,10 +34,11 @@ func (i *Input) GetImageSize() (int, int, error) {
 		return 0, 0, fmt.Errorf("unrecognised command '%s', use 'I' for Image initialisation", text[0])
 	}
 
-	xAxis, yAxis, err := translateInts(text[1], text[2])
+	axes, err := translateInts(text[1:])
 	if err != nil {
 		return 0, 0, err
 	}
+	xAxis, yAxis := axes[0], axes[1]
 
 	if !valid(xAxis) || !valid(yAxis) {
 		return 0, 0, fmt.Errorf("image axis out of range: %d <= M,N <= %d", MinValue, MaxValue)
@@ -46,18 +47,39 @@ func (i *Input) GetImageSize() (int, int, error) {
 	return xAxis, yAxis, nil
 }
 
-func translateInts(xAxStr, yAxStr string) (int, int, error) {
-	x, err := strconv.Atoi(xAxStr)
-	if err != nil {
-		return 0, 0, fmt.Errorf("could not parse non-integer '%s'", xAxStr)
+func (i *Input) GetEditActions(actionChan chan Command, errChan chan error) {
+	for {
+		i.scanner.Scan()
+		text := strings.Split(i.scanner.Text(), " ")
+
+		command := Command{Action: text[0]}
+
+		if len(text) > 1 {
+			coords, err := translateInts(text[1 : len(text)-1])
+			if err != nil {
+				errChan <- err
+				continue
+			}
+			command.Coords = coords
+			command.Char = text[len(text)-1]
+		}
+
+		actionChan <- command
+	}
+}
+
+func translateInts(axStr []string) ([]int, error) {
+	axes := []int{}
+
+	for _, a := range axStr {
+		axis, err := strconv.Atoi(a)
+		if err != nil {
+			return nil, fmt.Errorf("could not parse non-integer '%s'", a)
+		}
+		axes = append(axes, axis)
 	}
 
-	y, err := strconv.Atoi(yAxStr)
-	if err != nil {
-		return 0, 0, fmt.Errorf("could not parse non-integer '%s'", yAxStr)
-	}
-
-	return x, y, nil
+	return axes, nil
 }
 
 func valid(axis int) bool {

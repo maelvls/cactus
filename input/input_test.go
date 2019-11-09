@@ -93,4 +93,40 @@ var _ = Describe("Input", func() {
 			})
 		})
 	})
+
+	Describe("GetEditActions", func() {
+		It("processes input and returns Command objects", func() {
+			_, err := io.WriteString(buffer, "L 1 3 A")
+			Expect(err).NotTo(HaveOccurred())
+
+			commChan := make(chan input.Command)
+			errChan := make(chan error)
+
+			go func() {
+				i.GetEditActions(commChan, errChan)
+			}()
+
+			comm := <-commChan
+			Expect(comm.Action).To(Equal("L"))
+			Expect(comm.Coords).To(Equal([]int{1, 3}))
+			Expect(comm.Char).To(Equal("A"))
+		})
+
+		Context("if any coordinate argument cannot be translated into an integer", func() {
+			It("pushes the failure to the error channel", func() {
+				_, err := io.WriteString(buffer, "L p 3 A")
+				Expect(err).NotTo(HaveOccurred())
+
+				commChan := make(chan input.Command)
+				errChan := make(chan error)
+
+				go func() {
+					i.GetEditActions(commChan, errChan)
+				}()
+
+				err = <-errChan
+				Expect(err).To(MatchError("could not parse non-integer 'p'"))
+			})
+		})
+	})
 })

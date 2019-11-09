@@ -47,7 +47,7 @@ var _ = Describe("Integration", func() {
 		})
 	})
 
-	XDescribe("'L': colouring an individual pixel", func() {
+	Describe("'L': colouring an individual pixel", func() {
 		It("sets the pixel at the given coordinates to a given colour", func() {
 			_, err := io.WriteString(inBuf, "I 5 5\nL 1 3 A\nS")
 			Expect(err).NotTo(HaveOccurred())
