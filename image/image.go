@@ -6,10 +6,13 @@ import (
 
 type Image struct {
 	Grid [][]string
+	rows int
+	cols int
 }
 
 func New(c, r int) Image {
-	i := Image{Grid: generate(r, c)}
+	i := Image{rows: r, cols: c}
+	i.clear()
 	return i
 }
 
@@ -26,15 +29,19 @@ func (i *Image) Pretty() string {
 	return out
 }
 
-func generate(rows, cols int) [][]string {
-	grid := make([][]string, rows)
+func (i *Image) Clear() {
+	i.clear()
+}
 
-	for j := 0; j < rows; j++ {
-		grid[j] = make([]string, cols)
-		for k := 0; k < cols; k++ {
+func (i *Image) clear() {
+	grid := make([][]string, i.rows)
+
+	for j := 0; j < i.rows; j++ {
+		grid[j] = make([]string, i.cols)
+		for k := 0; k < i.cols; k++ {
 			grid[j][k] = "O"
 		}
 	}
 
-	return grid
+	i.Grid = grid
 }

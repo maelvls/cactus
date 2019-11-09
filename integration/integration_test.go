@@ -82,7 +82,7 @@ var _ = Describe("Integration", func() {
 		})
 	})
 
-	XDescribe("'C': clearing the image", func() {
+	Describe("'C': clearing the image", func() {
 		It("the image pixels are cleared", func() {
 			_, err := io.WriteString(inBuf, "I 2 2\nL 1 1 A\nS\nC\nS")
 			Expect(err).NotTo(HaveOccurred())

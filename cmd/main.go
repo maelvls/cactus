@@ -31,6 +31,8 @@ func main() {
 				bitmap.Set(command.Coords[0], command.Coords[1], command.Char)
 			case "S":
 				fmt.Println(bitmap.Pretty())
+			case "C":
+				bitmap.Clear()
 			}
 
 		case err := <-errChan:

@@ -30,6 +30,24 @@ var _ = Describe("Image", func() {
 		})
 	})
 
+	Describe("Clear", func() {
+		var m image.Image
+
+		BeforeEach(func() {
+			m = image.New(2, 3)
+			m.Set(2, 1, "C")
+		})
+
+		It("resets the grid to 'blank'", func() {
+			set := [][]string{{"O", "C"}, {"O", "O"}, {"O", "O"}}
+			Expect(m.Grid).To(Equal(set))
+
+			cleared := [][]string{{"O", "O"}, {"O", "O"}, {"O", "O"}}
+			m.Clear()
+			Expect(m.Grid).To(Equal(cleared))
+		})
+	})
+
 	Describe("Pretty", func() {
 		It("prettifies the grid for printing", func() {
 			m := image.New(3, 2)
