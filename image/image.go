@@ -28,6 +28,10 @@ func (i *Image) Set(x, y int, char string) error {
 }
 
 func (i *Image) SetMultiY(x, y1, y2 int, char string) error {
+	if y1 > y2 {
+		y1, y2 = y2, y1
+	}
+
 	var err error
 	for y := y1; y <= y2; y++ {
 		err = i.Set(x, y, char)
@@ -37,6 +41,10 @@ func (i *Image) SetMultiY(x, y1, y2 int, char string) error {
 }
 
 func (i *Image) SetMultiX(x1, x2, y int, char string) error {
+	if x1 > x2 {
+		x1, x2 = x2, x1
+	}
+
 	var err error
 	for x := x1; x <= x2; x++ {
 		err = i.Set(x, y, char)

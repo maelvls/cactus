@@ -57,6 +57,14 @@ var _ = Describe("Image", func() {
 			Expect(m.Grid).To(Equal(expected))
 		})
 
+		Context("if y1 is greater than y2", func() {
+			It("a line will still be drawn", func() {
+				expected := [][]string{{"O", "G"}, {"O", "G"}, {"O", "G"}}
+				Expect(m.SetMultiY(2, 3, 1, "G")).To(Succeed())
+				Expect(m.Grid).To(Equal(expected))
+			})
+		})
+
 		Context("if a y coordinate is out of range", func() {
 			It("fails", func() {
 				err := m.SetMultiY(2, 1, 5, "G")
@@ -76,6 +84,14 @@ var _ = Describe("Image", func() {
 			expected := [][]string{{"B", "B", "B"}, {"O", "O", "O"}}
 			Expect(m.SetMultiX(1, 3, 1, "B")).To(Succeed())
 			Expect(m.Grid).To(Equal(expected))
+		})
+
+		Context("if x1 is greater than x2", func() {
+			It("a line will still be drawn", func() {
+				expected := [][]string{{"B", "B", "B"}, {"O", "O", "O"}}
+				Expect(m.SetMultiX(3, 1, 1, "B")).To(Succeed())
+				Expect(m.Grid).To(Equal(expected))
+			})
 		})
 
 		Context("if an x coordinate is out of range", func() {
