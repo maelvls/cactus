@@ -43,6 +43,8 @@ func main() {
 				fmt.Println(bitmap.Pretty())
 			case "C":
 				bitmap.Clear()
+			case "":
+				os.Exit(0)
 			default:
 				fmt.Println("invalid action")
 			}
