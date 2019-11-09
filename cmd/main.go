@@ -28,7 +28,9 @@ func main() {
 		case command := <-commandChan:
 			switch command.Action {
 			case "L":
-				bitmap.Set(command.Coords[0], command.Coords[1], command.Char)
+				if err := bitmap.Set(command.Coords[0], command.Coords[1], command.Char); err != nil {
+					fmt.Println(err)
+				}
 			case "S":
 				fmt.Println(bitmap.Pretty())
 			case "C":

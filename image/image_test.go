@@ -25,9 +25,24 @@ var _ = Describe("Image", func() {
 
 		It("sets the given bit to a value", func() {
 			expected := [][]string{{"O", "R"}, {"O", "O"}, {"O", "O"}}
-			m.Set(2, 1, "R")
+			Expect(m.Set(2, 1, "R")).To(Succeed())
 			Expect(m.Grid).To(Equal(expected))
 		})
+
+		Context("if the x coordinate is out of range", func() {
+			It("fails", func() {
+				err := m.Set(5, 2, "R")
+				Expect(err).To(MatchError("given coordinate is beyond image grid"))
+			})
+		})
+
+		Context("if the y coordinate is out of range", func() {
+			It("fails", func() {
+				err := m.Set(2, 5, "R")
+				Expect(err).To(MatchError("given coordinate is beyond image grid"))
+			})
+		})
+
 	})
 
 	Describe("Clear", func() {

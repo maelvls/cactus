@@ -57,7 +57,7 @@ var _ = Describe("Integration", func() {
 			Eventually(session.Out).Should(gbytes.Say("O O O O O\nO O O O O\nA O O O O\nO O O O O\nO O O O O\n"))
 		})
 
-		XContext("if the action cannot be processed", func() {
+		Context("if the action cannot be processed", func() {
 			It("prints an error", func() {
 				_, err := io.WriteString(inBuf, "I 5 5\nL 1 6 A")
 				Expect(err).NotTo(HaveOccurred())

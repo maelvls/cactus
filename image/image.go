@@ -1,6 +1,7 @@
 package image
 
 import (
+	"errors"
 	"strings"
 )
 
@@ -16,8 +17,14 @@ func New(c, r int) Image {
 	return i
 }
 
-func (i *Image) Set(x, y int, char string) {
+func (i *Image) Set(x, y int, char string) error {
+	if x > i.cols || y > i.rows {
+		return errors.New("given coordinate is beyond image grid")
+	}
+
 	i.Grid[y-1][x-1] = char
+
+	return nil
 }
 
 func (i *Image) Pretty() string {
