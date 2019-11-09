@@ -31,6 +31,10 @@ func main() {
 				if err := bitmap.Set(command.Coords[0], command.Coords[1], command.Char); err != nil {
 					fmt.Println(err)
 				}
+			case "V":
+				if err := bitmap.SetMultiY(command.Coords[0], command.Coords[1], command.Coords[2], command.Char); err != nil {
+					fmt.Println(err)
+				}
 			case "S":
 				fmt.Println(bitmap.Pretty())
 			case "C":
