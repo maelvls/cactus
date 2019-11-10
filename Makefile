@@ -1,6 +1,6 @@
 .PHONY: all
 
-all: dep test build
+all: dep test bin
 
 bin:
 	@go build -v -o bitmap $(PWD)/cmd
@@ -10,4 +10,10 @@ dep:
 	@go mod tidy
 
 test:
-	@ginkgo -mod vendor -r
+	./test.sh
+
+help:
+	@echo "Usage:"
+	@echo "     bin  ................ build the binary (goes to ./bitmap)"
+	@echo "     dep  ................ update dependencies"
+	@echo "     test ................ run all tests (requires 'ginkgo')"

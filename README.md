@@ -1,3 +1,16 @@
+## Building, testing etc
+
+```
+$ make help
+Usage:
+     bin  ................ build the binary (goes to ./bitmap)
+     dep  ................ update dependencies
+     test ................ run all tests (requires 'ginkgo')
+```
+
+
+
+
 # Go Technical Assignment
 
 This assignment is meant to evaluate the golang proficiency of software engineers.
