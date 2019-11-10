@@ -8,6 +8,12 @@ Usage:
      test ................ run all tests (requires 'ginkgo')
 ```
 
+### Alternative design
+
+Just after I finished I changed my mind about the implementation and have spiked out an alternative on
+[another branch](https://github.com/mo-work/go-technical-test-for-claudia/tree/alternative).
+At some point I will settle on which I prefer.
+
 
 
 
