@@ -123,7 +123,7 @@ var _ = Describe("Image", func() {
 	Describe("Pretty", func() {
 		It("prettifies the grid for printing", func() {
 			m := image.New(3, 2)
-			Expect(m.Pretty()).To(Equal("O O O\nO O O\n"))
+			Expect(m.Pretty()).To(Equal("OOO\nOOO\n"))
 		})
 	})
 })

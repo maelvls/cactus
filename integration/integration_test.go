@@ -54,7 +54,7 @@ var _ = Describe("Integration", func() {
 
 			session, err := gexec.Start(cliCmd, GinkgoWriter, GinkgoWriter)
 			Expect(err).NotTo(HaveOccurred())
-			Eventually(session.Out).Should(gbytes.Say("O O O O O\nO O O O O\nA O O O O\nO O O O O\nO O O O O\n"))
+			Eventually(session.Out).Should(gbytes.Say("OOOOO\nOOOOO\nAOOOO\nOOOOO\nOOOOO\n"))
 		})
 
 		Context("if the action cannot be processed", func() {
@@ -76,7 +76,7 @@ var _ = Describe("Integration", func() {
 
 			session, err := gexec.Start(cliCmd, GinkgoWriter, GinkgoWriter)
 			Expect(err).NotTo(HaveOccurred())
-			Eventually(session.Out).Should(gbytes.Say("O O O O O\nO O O O O\nO W O O O\nO W O O O\nO W O O O\n"))
+			Eventually(session.Out).Should(gbytes.Say("OOOOO\nOOOOO\nOWOOO\nOWOOO\nOWOOO\n"))
 		})
 
 		Context("if the action cannot be processed", func() {
@@ -98,7 +98,7 @@ var _ = Describe("Integration", func() {
 
 			session, err := gexec.Start(cliCmd, GinkgoWriter, GinkgoWriter)
 			Expect(err).NotTo(HaveOccurred())
-			Eventually(session.Out).Should(gbytes.Say("O O O O O\nO O Z Z Z\nO O O O O\nO O O O O\nO O O O O\n"))
+			Eventually(session.Out).Should(gbytes.Say("OOOOO\nOOZZZ\nOOOOO\nOOOOO\nOOOOO\n"))
 		})
 
 		Context("if the action cannot be processed", func() {
@@ -121,7 +121,7 @@ var _ = Describe("Integration", func() {
 
 				session, err := gexec.Start(cliCmd, GinkgoWriter, GinkgoWriter)
 				Expect(err).NotTo(HaveOccurred())
-				Eventually(session.Out).Should(gbytes.Say("O O O O O\nO O O O O\nO O O O O\nO O O O O\nO O O O O\n"))
+				Eventually(session.Out).Should(gbytes.Say("OOOOO\nOOOOO\nOOOOO\nOOOOO\nOOOOO\n"))
 			})
 		})
 	})
@@ -133,7 +133,7 @@ var _ = Describe("Integration", func() {
 
 			session, err := gexec.Start(cliCmd, GinkgoWriter, GinkgoWriter)
 			Expect(err).NotTo(HaveOccurred())
-			Eventually(session.Out).Should(gbytes.Say("A O\nO O\n\nO O\nO O\n"))
+			Eventually(session.Out).Should(gbytes.Say("AO\nOO\n\nOO\nOO\n"))
 		})
 	})
 

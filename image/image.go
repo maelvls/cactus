@@ -56,7 +56,7 @@ func (i *Image) SetMultiX(x1, x2, y int, char string) error {
 func (i *Image) Pretty() string {
 	out := ""
 	for x := range i.Grid {
-		out += strings.Join(i.Grid[x], " ") + "\n"
+		out += strings.Join(i.Grid[x], "") + "\n"
 	}
 
 	return out
