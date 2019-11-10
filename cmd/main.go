@@ -14,7 +14,6 @@ func main() {
 	xAxis, yAxis, err := in.GetImageSize()
 	if err != nil {
 		fmt.Printf("invalid image value: %s\n", err)
-		os.Exit(1)
 	}
 
 	bitmap := image.New(xAxis, yAxis)
@@ -51,7 +50,6 @@ func main() {
 
 		case err := <-errChan:
 			fmt.Println(err)
-			os.Exit(1)
 		}
 	}
 }
