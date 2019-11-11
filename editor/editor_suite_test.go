@@ -1,4 +1,4 @@
-package image_test
+package editor_test
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestImage(t *testing.T) {
+func TestEditor(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Image Suite")
+	RunSpecs(t, "Editor Suite")
 }

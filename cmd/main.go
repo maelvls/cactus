@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mo-work/go-technical-test-for-claudia/image"
+	"github.com/mo-work/go-technical-test-for-claudia/editor"
 	"github.com/mo-work/go-technical-test-for-claudia/input"
 )
 
@@ -16,7 +16,7 @@ func main() {
 		fmt.Printf("invalid image value: %s\n", err)
 	}
 
-	bitmap := image.New(xAxis, yAxis)
+	bitmap := editor.New(xAxis, yAxis)
 
 	commandChan := make(chan input.Command)
 	errChan := make(chan error)
