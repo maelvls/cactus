@@ -1,25 +1,25 @@
-package input_test
+package runner_test
 
 import (
 	"bufio"
 	"io"
 
-	"github.com/mo-work/go-technical-test-for-claudia/input"
+	"github.com/mo-work/go-technical-test-for-claudia/runner"
 	. "github.com/onsi/ginkgo"
 	. "github.com/onsi/gomega"
 	"github.com/onsi/gomega/gbytes"
 )
 
-var _ = Describe("Input", func() {
+var _ = Describe("Runner", func() {
 	var (
 		buffer *gbytes.Buffer
-		i      input.Input
+		r      runner.Runner
 	)
 
 	BeforeEach(func() {
 		buffer = gbytes.NewBuffer()
 		scanner := bufio.NewScanner(buffer)
-		i = input.New(scanner)
+		r = runner.New(scanner)
 	})
 
 	Describe("GetImageSize", func() {
@@ -27,7 +27,7 @@ var _ = Describe("Input", func() {
 			_, err := io.WriteString(buffer, "I 5 7")
 			Expect(err).NotTo(HaveOccurred())
 
-			x, y, err := i.GetImageSize()
+			x, y, err := r.GetImageSize()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(x).To(Equal(5))
 			Expect(y).To(Equal(7))
@@ -37,7 +37,7 @@ var _ = Describe("Input", func() {
 			_, err := io.WriteString(buffer, "i 5 7")
 			Expect(err).NotTo(HaveOccurred())
 
-			x, y, err := i.GetImageSize()
+			x, y, err := r.GetImageSize()
 			Expect(err).NotTo(HaveOccurred())
 			Expect(x).To(Equal(5))
 			Expect(y).To(Equal(7))
@@ -48,7 +48,7 @@ var _ = Describe("Input", func() {
 				_, err := io.WriteString(buffer, "I x 7")
 				Expect(err).NotTo(HaveOccurred())
 
-				_, _, err = i.GetImageSize()
+				_, _, err = r.GetImageSize()
 				Expect(err).To(MatchError("could not parse non-integer 'x'"))
 			})
 		})
@@ -58,7 +58,7 @@ var _ = Describe("Input", func() {
 				_, err := io.WriteString(buffer, "I 7 y")
 				Expect(err).NotTo(HaveOccurred())
 
-				_, _, err = i.GetImageSize()
+				_, _, err = r.GetImageSize()
 				Expect(err).To(MatchError("could not parse non-integer 'y'"))
 			})
 		})
@@ -68,7 +68,7 @@ var _ = Describe("Input", func() {
 				_, err := io.WriteString(buffer, "I 0 7")
 				Expect(err).NotTo(HaveOccurred())
 
-				_, _, err = i.GetImageSize()
+				_, _, err = r.GetImageSize()
 				Expect(err).To(MatchError("image axis out of range: 1 <= M,N <= 1024"))
 			})
 		})
@@ -78,7 +78,7 @@ var _ = Describe("Input", func() {
 				_, err := io.WriteString(buffer, "I 7 0")
 				Expect(err).NotTo(HaveOccurred())
 
-				_, _, err = i.GetImageSize()
+				_, _, err = r.GetImageSize()
 				Expect(err).To(MatchError("image axis out of range: 1 <= M,N <= 1024"))
 			})
 		})
@@ -88,7 +88,7 @@ var _ = Describe("Input", func() {
 				_, err := io.WriteString(buffer, "I 1025 7")
 				Expect(err).NotTo(HaveOccurred())
 
-				_, _, err = i.GetImageSize()
+				_, _, err = r.GetImageSize()
 				Expect(err).To(MatchError("image axis out of range: 1 <= M,N <= 1024"))
 			})
 		})
@@ -98,22 +98,22 @@ var _ = Describe("Input", func() {
 				_, err := io.WriteString(buffer, "I 7 1025")
 				Expect(err).NotTo(HaveOccurred())
 
-				_, _, err = i.GetImageSize()
+				_, _, err = r.GetImageSize()
 				Expect(err).To(MatchError("image axis out of range: 1 <= M,N <= 1024"))
 			})
 		})
 	})
 
 	Describe("GetEditActions", func() {
-		It("processes input and returns Command objects", func() {
+		It("processes runner and returns Command objects", func() {
 			_, err := io.WriteString(buffer, "L 1 3 A")
 			Expect(err).NotTo(HaveOccurred())
 
-			commChan := make(chan input.Command)
+			commChan := make(chan runner.Command)
 			errChan := make(chan error)
 
 			go func() {
-				i.GetEditActions(commChan, errChan)
+				r.GetEditActions(commChan, errChan)
 			}()
 
 			comm := <-commChan
@@ -126,11 +126,11 @@ var _ = Describe("Input", func() {
 			_, err := io.WriteString(buffer, "l 1 3 a")
 			Expect(err).NotTo(HaveOccurred())
 
-			commChan := make(chan input.Command)
+			commChan := make(chan runner.Command)
 			errChan := make(chan error)
 
 			go func() {
-				i.GetEditActions(commChan, errChan)
+				r.GetEditActions(commChan, errChan)
 			}()
 
 			comm := <-commChan
@@ -144,11 +144,11 @@ var _ = Describe("Input", func() {
 				_, err := io.WriteString(buffer, "L p 3 A")
 				Expect(err).NotTo(HaveOccurred())
 
-				commChan := make(chan input.Command)
+				commChan := make(chan runner.Command)
 				errChan := make(chan error)
 
 				go func() {
-					i.GetEditActions(commChan, errChan)
+					r.GetEditActions(commChan, errChan)
 				}()
 
 				err = <-errChan

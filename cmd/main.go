@@ -6,21 +6,21 @@ import (
 	"os"
 
 	"github.com/mo-work/go-technical-test-for-claudia/editor"
-	"github.com/mo-work/go-technical-test-for-claudia/input"
+	"github.com/mo-work/go-technical-test-for-claudia/runner"
 )
 
 func main() {
-	in := input.New(bufio.NewScanner(os.Stdin))
-	xAxis, yAxis, err := in.GetImageSize()
+	r := runner.New(bufio.NewScanner(os.Stdin))
+	xAxis, yAxis, err := r.GetImageSize()
 	if err != nil {
 		fmt.Printf("invalid image value: %s\n", err)
 	}
 
 	bitmap := editor.New(xAxis, yAxis)
 
-	commandChan := make(chan input.Command)
+	commandChan := make(chan runner.Command)
 	errChan := make(chan error)
-	go in.GetEditActions(commandChan, errChan)
+	go r.GetEditActions(commandChan, errChan)
 
 	for {
 		select {

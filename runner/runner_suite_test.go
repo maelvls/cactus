@@ -1,4 +1,4 @@
-package input_test
+package runner_test
 
 import (
 	"testing"
@@ -7,7 +7,7 @@ import (
 	. "github.com/onsi/gomega"
 )
 
-func TestInput(t *testing.T) {
+func TestRunner(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "Input Suite")
+	RunSpecs(t, "Runner Suite")
 }

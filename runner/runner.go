@@ -1,4 +1,4 @@
-package input
+package runner
 
 import (
 	"bufio"
@@ -12,7 +12,7 @@ const (
 	MaxValue = 1024
 )
 
-type Input struct {
+type Runner struct {
 	scanner *bufio.Scanner
 }
 
@@ -22,13 +22,13 @@ type Command struct {
 	Char   string
 }
 
-func New(reader *bufio.Scanner) Input {
-	return Input{scanner: reader}
+func New(reader *bufio.Scanner) Runner {
+	return Runner{scanner: reader}
 }
 
-func (i *Input) GetImageSize() (int, int, error) {
-	i.scanner.Scan()
-	text := strings.Split(i.scanner.Text(), " ")
+func (r *Runner) GetImageSize() (int, int, error) {
+	r.scanner.Scan()
+	text := strings.Split(r.scanner.Text(), " ")
 
 	if strings.ToUpper(text[0]) != "I" {
 		return 0, 0, fmt.Errorf("unrecognised command '%s', use 'I' for Image initialisation", text[0])
@@ -47,10 +47,10 @@ func (i *Input) GetImageSize() (int, int, error) {
 	return xAxis, yAxis, nil
 }
 
-func (i *Input) GetEditActions(actionChan chan Command, errChan chan error) {
+func (r *Runner) GetEditActions(actionChan chan Command, errChan chan error) {
 	for {
-		i.scanner.Scan()
-		text := strings.Split(i.scanner.Text(), " ")
+		r.scanner.Scan()
+		text := strings.Split(r.scanner.Text(), " ")
 
 		command := Command{Action: strings.ToUpper(text[0])}
 
