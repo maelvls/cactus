@@ -6,15 +6,12 @@ Usage:
      bin  ................ build the binary (goes to ./bitmap)
      dep  ................ update dependencies
      test ................ run all tests (requires 'ginkgo')
+     fake ................ regenerate interface mocks for testing
 ```
 
 ### Alternative design
 
-Just after I finished I changed my mind about the implementation and have spiked out an alternative on
-[another branch](https://github.com/mo-work/go-technical-test-for-claudia/tree/alternative).
-At some point I will settle on which I prefer.
-
-
+I had a last minute change of heart about many things, an earlier version of the code can be found at commit [7d2fc40](https://github.com/mo-work/go-technical-test-for-claudia/tree/7d2fc402a6f339a6037d97b6796c79aae60d58ea).
 
 
 # Go Technical Assignment
