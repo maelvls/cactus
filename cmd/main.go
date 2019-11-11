@@ -10,46 +10,14 @@ import (
 )
 
 func main() {
-	r := runner.New(bufio.NewScanner(os.Stdin))
-	xAxis, yAxis, err := r.GetImageSize()
-	if err != nil {
+	editor := editor.Editor{}
+	r := runner.New(bufio.NewScanner(os.Stdin), os.Stdout, &editor)
+
+	if err := r.ProcessImageSize(); err != nil {
 		fmt.Printf("invalid image value: %s\n", err)
 	}
 
-	bitmap := editor.New(xAxis, yAxis)
+	r.ProcessEditActions()
 
-	commandChan := make(chan runner.Command)
-	errChan := make(chan error)
-	go r.GetEditActions(commandChan, errChan)
-
-	for {
-		select {
-		case command := <-commandChan:
-			switch command.Action {
-			case "L":
-				if err := bitmap.Set(command.Coords[0], command.Coords[1], command.Char); err != nil {
-					fmt.Println(err)
-				}
-			case "V":
-				if err := bitmap.SetMultiY(command.Coords[0], command.Coords[1], command.Coords[2], command.Char); err != nil {
-					fmt.Println(err)
-				}
-			case "H":
-				if err := bitmap.SetMultiX(command.Coords[0], command.Coords[1], command.Coords[2], command.Char); err != nil {
-					fmt.Println(err)
-				}
-			case "S":
-				fmt.Println(bitmap.Pretty())
-			case "C":
-				bitmap.Clear()
-			case "":
-				os.Exit(0)
-			default:
-				fmt.Println("invalid action")
-			}
-
-		case err := <-errChan:
-			fmt.Println(err)
-		}
-	}
+	os.Exit(0)
 }

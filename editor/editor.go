@@ -6,15 +6,14 @@ import (
 )
 
 type Editor struct {
-	Grid [][]string
-	rows int
-	cols int
+	Image [][]string
+	rows  int
+	cols  int
 }
 
-func New(c, r int) Editor {
-	e := Editor{rows: r, cols: c}
+func (e *Editor) CreateImage(c, r int) {
+	e.rows, e.cols = r, c
 	e.clear()
-	return e
 }
 
 func (e *Editor) Set(x, y int, char string) error {
@@ -22,7 +21,7 @@ func (e *Editor) Set(x, y int, char string) error {
 		return errors.New("given coordinate is beyond image grid")
 	}
 
-	e.Grid[y-1][x-1] = char
+	e.Image[y-1][x-1] = char
 
 	return nil
 }
@@ -55,8 +54,8 @@ func (e *Editor) SetMultiX(x1, x2, y int, char string) error {
 
 func (e *Editor) Pretty() string {
 	out := ""
-	for x := range e.Grid {
-		out += strings.Join(e.Grid[x], "") + "\n"
+	for x := range e.Image {
+		out += strings.Join(e.Image[x], "") + "\n"
 	}
 
 	return out
@@ -76,5 +75,5 @@ func (e *Editor) clear() {
 		}
 	}
 
-	e.Grid = grid
+	e.Image = grid
 }
