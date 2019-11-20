@@ -39,7 +39,7 @@ func New(reader *bufio.Scanner, writer io.Writer, ed ImageEditor) Runner {
 	return Runner{scanner: reader, out: writer, editor: ed}
 }
 
-func (r *Runner) ProcessImageSize() error {
+func (r Runner) ProcessImageSize() error {
 	r.scanner.Scan()
 	text := strings.Split(r.scanner.Text(), " ")
 
@@ -62,7 +62,7 @@ func (r *Runner) ProcessImageSize() error {
 	return nil
 }
 
-func (r *Runner) ProcessEditActions() {
+func (r Runner) ProcessEditActions() {
 	for {
 		r.scanner.Scan()
 		text := strings.Split(r.scanner.Text(), " ")
@@ -90,7 +90,7 @@ func (r *Runner) ProcessEditActions() {
 	}
 }
 
-func (r *Runner) applyAction(command Command) error {
+func (r Runner) applyAction(command Command) error {
 	switch command.Action {
 	case "L":
 		if err := r.editor.Set(command.Coords[0], command.Coords[1], command.Char); err != nil {

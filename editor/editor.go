@@ -52,7 +52,7 @@ func (e *Editor) SetMultiX(x1, x2, y int, char string) error {
 	return err
 }
 
-func (e *Editor) Pretty() string {
+func (e Editor) Pretty() string {
 	out := ""
 	for x := range e.Image {
 		out += strings.Join(e.Image[x], "") + "\n"
